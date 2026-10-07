@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  设备管理员策略声明。
+  ⚠ 本工程为「安全测试专用」：仅声明最基本的策略，用于验证
+  adb / Shizuku 能否移除已激活的设备管理员。不包含任何破坏性策略。
+-->
+<device-admin xmlns:android="http://schemas.android.com/apk/res/android">
+    <uses-policies>
+        <!-- 刻意留空：只用于让系统把它登记为"已激活的设备管理员"，
+             不申请任何会真的限制用户的策略 -->
+    </uses-policies>
+</device-admin>
