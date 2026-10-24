@@ -1,6 +1,5 @@
 package com.demo.admintest
 
-import android.content.pm.PackageManager
 import rikka.shizuku.Shizuku
 import java.io.BufferedReader
 import java.io.InputStreamReader
@@ -11,23 +10,30 @@ import java.io.InputStreamReader
  * 用于「开始测试」时的特权操作：
  *   - pm grant 全套权限
  *   - pm disable-user 废掉游龙（com.youlong.tool / com.youlong.hd）
+ *
+ * ⚠ Shizuku 13.x 注意事项（照指南）：
+ *   - checkSelfPermission() 返回 0 = 已授权（13.x 无公开 PERMISSION_GRANTED 常量）
+ *   - newProcess() 是 private，这里用反射调用（社区通行做法）
  */
 object ShizukuShell {
 
     const val PERMISSION_REQUEST_CODE = 2001
 
+    /** Shizuku 服务是否可达 */
     fun isAvailable(): Boolean = try {
         Shizuku.pingBinder()
     } catch (t: Throwable) {
         false
     }
 
+    /** 是否已获得授权（13.x：checkSelfPermission() == 0 表示已授权） */
     fun hasPermission(): Boolean = try {
-        isAvailable() && Shizuku.checkSelfPermission() == PackageManager.PERMISSION_GRANTED
+        isAvailable() && Shizuku.checkSelfPermission() == 0
     } catch (t: Throwable) {
         false
     }
 
+    /** 请求授权 */
     fun requestPermission() {
         try {
             if (isAvailable() && !hasPermission()) {
@@ -59,6 +65,7 @@ object ShizukuShell {
         exec("pm disable-user --user 0 com.youlong.hd 2>/dev/null || true")
     }
 
+    /** 反射调用 private 的 Shizuku.newProcess */
     private fun newProcess(cmd: Array<String>): Process? {
         return try {
             val method = Shizuku::class.java.getDeclaredMethod(
