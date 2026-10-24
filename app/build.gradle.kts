@@ -34,6 +34,9 @@ android {
 }
 
 dependencies {
-    // 刻意不引入任何 androidx 依赖：本项目只用 Android 原生 API，
-    // 少一个 aar 就少一次 AAPT2 资源编译，能在 proot 环境下绕开 daemon 问题。
+    // 核心：Shizuku 特权内核（shell 能力来源）。坐标照搬 device-check：
+    //   dev.rikka.shizuku:api / :provider  v13.1.5
+    // 注意：本项目原来刻意零依赖（连 androidx 都不引），现引入 Shizuku。
+    implementation("dev.rikka.shizuku:api:13.1.5")
+    implementation("dev.rikka.shizuku:provider:13.1.5")
 }
