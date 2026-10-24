@@ -17,7 +17,6 @@ class GuardAccessibility : AccessibilityService() {
 
     override fun onServiceConnected() {
         super.onServiceConnected()
-        // 服务已连接，保持存活即可
     }
 
     override fun onInterrupt() {
