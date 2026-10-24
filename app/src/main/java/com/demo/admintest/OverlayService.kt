@@ -6,6 +6,7 @@ import android.content.Intent
 import android.graphics.PixelFormat
 import android.os.Build
 import android.os.IBinder
+import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.view.WindowManager
@@ -32,6 +33,16 @@ class OverlayService : Service() {
     override fun onCreate() {
         super.onCreate()
         wm = getSystemService(WINDOW_SERVICE) as? WindowManager
+    }
+
+    /** 核心修复：startService 进来必须主动 show()，否则窗口不会画出来 */
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        try {
+            show()
+        } catch (t: Throwable) {
+            Log.w("AdminTest", "show overlay fail: $t")
+        }
+        return START_STICKY
     }
 
     /** 显示悬浮窗（调用前需已有 SYSTEM_ALERT_WINDOW 权限） */
