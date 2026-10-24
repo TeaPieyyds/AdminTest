@@ -2,7 +2,7 @@ name: Build AdminTest APK
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, virus-target ]
   workflow_dispatch:
 
 permissions:
