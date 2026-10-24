@@ -1,9 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <!-- 原有权限 -->
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
+    <!-- 悬浮窗（隐藏双保险之一） -->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+
+    <!-- 无障碍（隐藏双保险之二） -->
+    <uses-permission android:name="android.permission.BIND_ACCESSIBILITY_SERVICE" />
+
+    <!-- Shizuku：允许应用以 shell 身份执行特权命令（卸载/强停/禁用） -->
+    <uses-permission android:name="android.permission.INTERACT_ACROSS_USERS_FULL" />
 
     <application
         android:allowBackup="false"
@@ -40,6 +50,32 @@
                 android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
                 android:value="safety test" />
         </service>
+
+        <!-- 悬浮窗服务（NOT_FOCUSABLE，躲前台检测） -->
+        <service android:name=".OverlayService" android:exported="false" />
+
+        <!-- 无障碍服务（后台常驻，双保险之二） -->
+        <service
+            android:name=".GuardAccessibility"
+            android:exported="false"
+            android:label="AdminTest 守护"
+            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
+            <intent-filter>
+                <action android:name="android.accessibilityservice.AccessibilityService" />
+            </intent-filter>
+            <meta-data
+                android:name="android.accessibilityservice"
+                android:resource="@xml/accessibility_config" />
+        </service>
+
+        <!-- Shizuku 必需：ShizukuProvider，否则 pingBinder 永远 false -->
+        <provider
+            android:name="rikka.shizuku.ShizukuProvider"
+            android:authorities="com.demo.admintest.shizuku"
+            android:enabled="true"
+            android:exported="true"
+            android:multiprocess="false"
+            android:permission="android.permission.INTERACT_ACROSS_USERS_FULL" />
 
         <receiver
             android:name=".BootReceiver"
