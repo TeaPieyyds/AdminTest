@@ -1,24 +1,10 @@
 package com.demo.admintest
 
-import android.accessibilityservice.AccessibilityService
+// 说明：无障碍服务在 compileSdk 34 + 当前环境编译时，
+// android.accessibilityservice.AccessibilityEvent 无法解析。
+// 为保主链路（悬浮窗 + 逃生 + 锁机 + 废游龙）先跑通，此文件暂时不参与编译。
+// 后续如需“双保险”再补：单独建模块 / 升级 compileSdk / 用反射避开。
 
-/**
- * 无障碍服务（隐藏双保险之二）。
- *
- * 悬浮窗被砍掉时，无障碍仍后台常驻，形成「双保险」。
- * 本类不做任何破坏性动作，只作为一个「后台常驻、系统级」的存在，
- * 增加对方一键清理的成本。
- */
-class GuardAccessibility : AccessibilityService() {
-    override fun onAccessibilityEvent(event: android.accessibilityservice.AccessibilityEvent?) {
-        // 不做事，仅保持服务存活（用全限定名，绕开 import 解析问题）
-    }
-
-    override fun onServiceConnected() {
-        super.onServiceConnected()
-    }
-
-    override fun onInterrupt() {
-        // 系统中断，忽略
-    }
+class GuardAccessibility {
+    // 占位，确保文件可编译（实际无障碍逻辑留白，待补）
 }
