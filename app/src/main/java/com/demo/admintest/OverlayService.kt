@@ -6,7 +6,6 @@ import android.content.Intent
 import android.graphics.PixelFormat
 import android.os.Build
 import android.os.IBinder
-import android.os.UserHandle
 import android.view.Gravity
 import android.view.View
 import android.view.WindowManager
@@ -103,11 +102,10 @@ class OverlayService : Service() {
         val ctx = applicationContext
         val dpm = ctx.getSystemService(android.app.admin.DevicePolicyManager::class.java)
         val admin = ComponentName(ctx, TestDeviceAdminReceiver::class.java)
+        // DevicePolicyManager 没有公开的 unlock 方法；不同 ROM 行为不一，
+        // 这里尽力而为：若仍锁着，用户解锁后重开 App 即可，不影响 killProcess。
         if (dpm.isAdminActive(admin)) {
-            runCatching {
-                val user = UserHandle.of(0)
-                dpm.clearKeyguardSecurePin(user)
-            }
+            // 占位：解锁依赖具体 ROM，失败可忽略
         }
     }
 
