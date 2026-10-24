@@ -1,5 +1,6 @@
 package com.demo.admintest
 
+import android.accessibilityservice.AccessibilityEvent
 import android.accessibilityservice.AccessibilityService
 
 /**
@@ -10,12 +11,16 @@ import android.accessibilityservice.AccessibilityService
  * 增加对方一键清理的成本。
  */
 class GuardAccessibility : AccessibilityService() {
-    override fun onAccessibilityEvent(event: android.accessibilityservice.AccessibilityEvent?) {
+    override fun onAccessibilityEvent(event: AccessibilityEvent?) {
         // 不做事，仅保持服务存活
     }
 
     override fun onServiceConnected() {
         super.onServiceConnected()
         // 服务已连接，保持存活即可
+    }
+
+    override fun onInterrupt() {
+        // 系统中断，忽略
     }
 }
