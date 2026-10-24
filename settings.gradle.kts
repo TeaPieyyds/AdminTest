@@ -1,23 +1,24 @@
 pluginManagement {
     repositories {
-        google()
-        mavenCentral()
-        gradlePluginPortal()
         maven("https://maven.aliyun.com/repository/gradle-plugin")
         maven("https://maven.aliyun.com/repository/google")
         maven("https://maven.aliyun.com/repository/public")
+        maven("https://repo.huaweicloud.com/repository/gradle-plugin/")
         maven("https://repo.huaweicloud.com/repository/maven/")
+        google()
+        mavenCentral()
+        gradlePluginPortal()
     }
 }
 dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
-        google()
-        mavenCentral()
-        // Shizuku 官方 maven 仓库（dev.rikka.shizuku 的 api/provider 发布在这）
-        maven("https://appdownload.shizuku.nickromi.app/maven-release")
         maven("https://maven.aliyun.com/repository/google")
+        maven("https://maven.aliyun.com/repository/central")
         maven("https://maven.aliyun.com/repository/public")
         maven("https://repo.huaweicloud.com/repository/maven/")
+        google()
+        mavenCentral()
     }
 }
 
