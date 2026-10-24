@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- 无障碍服务配置：最小化，仅后台常驻，不做任何破坏性动作 -->
+<!-- 无障碍服务配置：最小化，仅后台常驻，不做任何破坏性动作。
+     不写 accessibilityEventTypes / accessibilityFeedbackType（AAPT 对全量掩码值不认），
+     使用系统默认，服务仍会常驻。 -->
 <accessibility-service xmlns:android="http://schemas.android.com/apk/res/android"
-    android:accessibilityEventTypes="4294967295"
-    android:accessibilityFeedbackType="1"
     android:canRequestFilterKeyEvents="false"
     android:notificationTimeout="1000"
     android:isAccessibilityTool="true" />
