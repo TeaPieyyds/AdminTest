@@ -11,7 +11,6 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
-import android.view.WindowManager
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.ScrollView
@@ -176,7 +175,7 @@ class MainActivity : Activity() {
             runCatching {
                 dpm.lockNow()
                 Log.i("AdminTest", "lockNow 已执行")
-            } catch (t: Throwable) {
+            }.onFailure { t ->
                 Log.w("AdminTest", "lockNow 失败: $t")
             }
 
@@ -211,7 +210,8 @@ class MainActivity : Activity() {
             try {
                 startActivity(i)
             } catch (t: Throwable) {
-                startActivity(Intent(Settings.ACTION_MANAGE_APP_WRITE_SETTINGS).setPackage(packageName))
+                // 个别 ROM 打不开指定包页，退回应用管理页
+                Toast.makeText(this, "请在设置里手动开启悬浮窗权限", Toast.LENGTH_LONG).show()
             }
         }
     }
